@@ -10,11 +10,44 @@ This pipeline automatically cleans and aligns sample metadata, preprocesses coun
 Depending on the input, the pipeline generates either full DESeq2 differential expression results or log2 fold-change summaries using limma-based methods.
 
 ## Methodology & Design
-### Metadata Cleaning 
+This pipeline follows a stages, decision-driven architecture designed to robusely process heterogenuous GEO datasets and produce interpretable differential expression results. 
+### Stage 1: Metadata -> Experimental Design
+`Cleantitle_v3.py` 
+### Stage 2: Raw files -> Count Matrix
+`DownloadCounts_v2.py` searches the GEO accession files on the website and requests downloads of count data candidatates using keyword-based detection/filtering. 
 
-### Count Matrix Preprocessing Pipeline
+Candidate files are decompressed if necessary, and insepcted for single or multiple count-matrix entries. If aggregation is needed, count data are aggregated at the GSM level. The combined count matrix has:
+- rows correspond to Gene Ids
+- columns correspond to GSM sample IDs
+Column ordering is explicitly aligned with the cleaned metadata tsv to ensure consistency in the DESeq2/limma workflow.
 
-### DESeq2 and Limma analysis
+The current keywords dictionary:
+```
+good_keywords_set = {'raw','count','matrix','.mtx','rpkm','fpkm','tpm','cpm'}
+bad_keywords_set = {'ercc', 'spike', 'phix', 'rrna', 'gfp', 'rfp', 'mcherry', 'mt-', 'summary',
+                        'report', 'statistics', 'sample_sheet', 'bed', 'bedgraph','peak','hepa', 'cluster'}
+comment_header_set = {'!','#','notes','summary','%','^'}
+bad_extension_set = {'.bed','.bedgraph','.wig','bigwig','.bam','.sam','.gtf','.vcf','.soft',
+                            '.gff','.peak','.narrowpeak','.bw','.fastq','.fq','.family','.idat','.sra',
+                            '.ann','.rds','.rdata','.rda','.h5','.h5ad','.loom','.cel','.doc','.docx'}
+```
+Supported file types:
+```
+.tar
+.zip
+.7z
+.gz
+.rar
+.xlsx
+.xls
+.csv
+.tsv
+.txt
+.mtx
+(no type)
+user-customized type
+```
+### Stage 3: Statistical Engine (R) -> Final Results
 
 ## Requirements
 ### R Environment
