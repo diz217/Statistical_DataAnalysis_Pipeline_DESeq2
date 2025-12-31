@@ -131,7 +131,7 @@ Depending on the data type and replicate availability, the pipeline generates tw
 │   ├── run_limmaVoom_v2.py
 │   ├── run_limma_v2.py                             
 │
-├── script/
+├── scripts/
 │   ├── Downloadcount_v2_script.py                   
 │
 ├── docs/
