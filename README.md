@@ -64,14 +64,14 @@ While the pipeline is designed for full automation, there are certain (rare) cas
 
 ## Outputs
 The pipeline generates a set of intermediate and final result files under the working directory for each GEO accession. 
-**Intermediate files**
+### Intermediate files
 - `{GSE_ID}_meta_gsm_condition.tsv` Metadata matrix with GSM IDs, pre-cleaned titles, descriptions if applicable, pose-cleaned conditions. Note, only the GSMs detected in the count matrix files are kept.
 - `{GSE_ID}_conditions.tsv` Unique conditions from post-cleaned titles.
 - `{GSE_ID}_control_experiments.tsv` Autoamtically inferred case-control pairs from unique conditions. This file is used in pipeline case-control design for statistical analysis.
 - `{GSE_ID}_(count|var)_gsm_matrix_{i}.tsv` Preprocessed aggregated count matrix (i-th downloaded file) with Gene IDs as the first column and Sample IDs (GSM) as the first row. Note, the GSMs follow the same order as in the 'geo_accession' column in the metadata tsv.
   - 'count' stands for integer count data and 'val' stands for normalized count data.
 
-**Final analysis results**
+### Final analysis results
 Depending on the data type and replicate availability, the pipeline generates two or more statistical result tables:
 - DESeq2 results:
   - Generated for integer count data with biological replicated experiments.
@@ -84,7 +84,7 @@ Depending on the data type and replicate availability, the pipeline generates tw
   - Generated when replicates are unavailable. limma-voom is used for integer count data, and limma is used for normalized count data.
   - logFC
   - logMean (AMean)
-** Example output directory**
+### Example output directory
 ## Directory 
 ```
 ├── src/
