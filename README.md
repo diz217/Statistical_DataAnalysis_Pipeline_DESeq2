@@ -103,6 +103,7 @@ Depending on the data type and replicate availability, the pipeline generates tw
 │
 ├── docs/
 |   ├── Screenshot_outputs_directory.png
+|
 ├── LICENSE
 ├── README.md                     
 └── requirements.txt
