@@ -19,7 +19,7 @@ Depending on the input, the pipeline generates either full DESeq2 differential e
 ## Requirements
 ### R Environment
 - R (>=4.2)
-- RStudio (optional)
+- RStudio 
 Required R packages:
 - DESeq2
 - limma
@@ -36,13 +36,14 @@ BiocManager::install(c(
 ```
 ### Python Environment
 - python(>=3.9)
+  - **Add python executable to system path**
 ```
 python -m pip install -r requirements.txt
 ```
 ## Usage
 ### Working Directory Assumption
 This pipeline assumes the existence of an `/R space/` directory (see in `.R` scripts), where all the source codes need to be placed into. 
-This working diretory is expected to be manually created by the user, under the path: `C:/Users/[username]/Documents`, which is the default home directory set by RStudio. 
+This working diretory is expected to be manually created by the user, under the path: `C:/Users/{username}/Documents`, which is the default home directory set by RStudio. 
 
 ### Running the Pipeline
 The pipeline is executed by the python file `main_v2.py`. Run the pipeline by providing a GEO accession ID:
@@ -100,8 +101,13 @@ Depending on the data type and replicate availability, the pipeline generates tw
 ├── script/
 │   ├── Downloadcount_v2_script.py                   
 │
+├── docs/
+|   ├── Screenshot_outputs_directory.png
 ├── LICENSE
 ├── README.md                     
 └── requirements.txt
 ```
 ## Notes
+- This pipeline operation relies on count matrices of Gene IDs. It does not handle FASTQ files, read alignment, or quantification from raw sequencing data.
+- As long as a GEO dataset provides Gene-level count data that can be parsed and aggregated at the GSM level, the pipeline is expected to work.
+- Due to the heterogeneous and often noisy nature of public GEO data, users are encouraged to inspect intermediate results and pay attention to the console outputs for warning or error messages. 
