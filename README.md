@@ -17,36 +17,22 @@ This pipeline follows a stages, decision-driven architecture designed to robusel
 `DownloadCounts_v2.py` searches the GEO accession files on the website and requests downloads of count data candidatates using keyword-based detection/filtering. 
 
 Candidate files are decompressed if necessary, and insepcted for single or multiple count-matrix entries. If aggregation is needed, count data are aggregated at the GSM level. The combined count matrix has:
-- rows correspond to Gene Ids
-- columns correspond to GSM sample IDs
+- rows -> Gene Ids
+- columns -> GSM sample IDs.
 Column ordering is explicitly aligned with the cleaned metadata tsv to ensure consistency in the DESeq2/limma workflow.
 
 The current keywords dictionary:
-```
-good_keywords_set = {'raw','count','matrix','.mtx','rpkm','fpkm','tpm','cpm'}
-bad_keywords_set = {'ercc', 'spike', 'phix', 'rrna', 'gfp', 'rfp', 'mcherry', 'mt-', 'summary',
-                        'report', 'statistics', 'sample_sheet', 'bed', 'bedgraph','peak','hepa', 'cluster'}
-comment_header_set = {'!','#','notes','summary','%','^'}
-bad_extension_set = {'.bed','.bedgraph','.wig','bigwig','.bam','.sam','.gtf','.vcf','.soft',
-                            '.gff','.peak','.narrowpeak','.bw','.fastq','.fq','.family','.idat','.sra',
-                            '.ann','.rds','.rdata','.rda','.h5','.h5ad','.loom','.cel','.doc','.docx'}
-```
+ - good_keywords_set = `{'raw','count','matrix','.mtx','rpkm','fpkm','tpm','cpm'}`
+ - bad_keywords_set = `{'ercc', 'spike', 'phix', 'rrna', 'gfp', 'rfp', 'mcherry', 'mt-', 'summary',
+                        'report', 'statistics', 'sample_sheet', 'bed', 'bedgraph','peak','hepa', 'cluster'}`
+ - comment_header_set = {'!','#','notes','summary','%','^'}
+ - bad_extension_set = `{'.bed','.bedgraph','.wig','bigwig','.bam','.sam','.gtf','.vcf','.soft','.gff','.peak','.narrowpeak','.bw','.fastq','.fq','.family','.idat','.sra',
+                            '.ann','.rds','.rdata','.rda','.h5','.h5ad','.loom','.cel','.doc','.docx'}`
 Supported file types:
-```
-.tar
-.zip
-.7z
-.gz
-.rar
-.xlsx
-.xls
-.csv
-.tsv
-.txt
-.mtx
-(no type)
-user-customized type
-```
+ - Archives: `.tar, .zip,.7z,.gz,.rar`
+ - Data: `.xlsx, .xls, .csv, .tsv, .txt, .mtx`
+ - Special: no extension, user-customized type
+
 ### Stage 3: Statistical Engine (R) -> Final Results
 
 ## Requirements
