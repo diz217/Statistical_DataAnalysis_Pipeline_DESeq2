@@ -1,0 +1,8 @@
+requests
+pandas
+scipy
+tarfile
+rarfile
+py7zr
+openpyxl
+numpy
