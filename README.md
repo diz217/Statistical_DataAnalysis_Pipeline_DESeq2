@@ -85,6 +85,7 @@ Depending on the data type and replicate availability, the pipeline generates tw
   - logFC
   - logMean (AMean)
 ### Example output directory
+![Example output directory](docs/Screenshot_outputs_directory.png)
 ## Directory 
 ```
 ├── src/
