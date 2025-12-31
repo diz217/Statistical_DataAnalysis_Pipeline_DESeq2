@@ -12,11 +12,15 @@ Depending on the input, the pipeline generates either full DESeq2 differential e
 ## Methodology & Design
 This pipeline follows a stages, decision-driven architecture designed to robusely process heterogenuous GEO datasets and produce interpretable differential expression results. 
 ### Stage 1: Metadata -> Experimental Design
-`Cleantitle_v3.py` reads in series matrix files downloaded by `save_gse_meta.R` and conducts systematic cleaning of the 'title' column of the series matrix to identify the unique experimental conditions and the repetitions. This step is essential to DESeq2/limma+voom workflow, because repetitions are needed for p-val calculation. The main challenge arises from the highly heterogeneous and unconstrained naming conventions used in sample titles. In this pipeline, we adopt a separator-based parsing strategy, assisted by a lightweight keyword dictionary, to identify and isolate numeric tokens corresponding to replicate indices, animal identifiers, or sequencing runs.
+`Cleantitle_v3.py` reads in series matrix files downloaded by `save_gse_meta.R` and conducts systematic cleaning of the 'title' column of the series matrix to identify the unique experimental conditions and the repetitions. This step is essential to DESeq2/limma+voom workflow, because repetitions are needed for p-val calculation. 
+
+The main challenge arises from the highly heterogeneous and unconstrained naming conventions used in sample titles. In this pipeline, we adopt a separator-based parsing strategy, assisted by a lightweight keyword dictionary, to identify and isolate numeric tokens corresponding to replicate indices, animal identifiers, or sequencing runs.
 
 From the cleaned metadata, an separatorand-counter based algorithm is devised to construct case-control comparisons that define the downstream statistical tests. 
 ### Stage 2: Raw files -> Count Matrix
-`DownloadCounts_v2.py` searches the GEO accession files on the website and requests downloads of count data candidatates using keyword-based detection/filtering. Candidate files are decompressed if necessary, and insepcted for single or multiple count-matrix entries. Count matrices are ingested using the pandas Python engine. Field separators are automatically inferred, after which a column-count–based heuristic is applied to distinguish the numeric matrix from comment or annotation rows. Column headers are then detected and validated against the metadata TSV by attempting numeric coercion, allowing reliable identification of sample columns.
+`DownloadCounts_v2.py` searches the GEO accession files on the website and requests downloads of count data candidatates using keyword-based detection/filtering. Candidate files are decompressed if necessary, and insepcted for single or multiple count-matrix entries. 
+
+Count matrices are ingested using the pandas Python engine. Field separators are automatically inferred, after which a column-count–based heuristic is applied to distinguish the numeric matrix from comment or annotation rows. Column headers are then detected and validated against the metadata TSV by attempting numeric coercion, allowing reliable identification of sample columns.
 
 If aggregation is needed, count data are aggregated at the GSM level. The combined count matrix has:
 - rows -> Gene Ids
@@ -37,7 +41,14 @@ Supported file types:
  - Special: no extension, user-customized type
 
 ### Stage 3: Statistical Engine (R) -> Final Results
-Cleaned 
+Cleaned metadata and aggregated count matrices are passed to an R-based analysis core.
+
+Based on the data characteristics detected at runtime—specifically whether the values are integer or continuous, and whether biological replicates are present—the pipeline automatically selects an appropriate statistical framework:
+- **DESeq2** for integer counts with replicates  
+- **limma-voom** for integer counts without replicates  
+- **limma** for continuous expression values  
+
+Case–control comparisons derived from metadata are applied to generate final differential expression statistics, including log fold changes and significance metrics where applicable.
 ## Requirements
 ### R Environment
 - R (>=4.2)
