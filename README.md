@@ -78,6 +78,14 @@ python -m pip install -r requirements.txt
 This pipeline assumes the existence of an `/R space/` directory (see in `.R` scripts), where all the source codes need to be placed into. 
 This working diretory is expected to be manually created by the user, under the path: `C:/Users/{username}/Documents`, which is the default home directory set by RStudio. 
 
+### Rscript Path Configuration
+This pipeline invokes R via the `subprocess` module. Please ensure that the path to `Rscript` is correctly configured in the `main_v2.py`. 
+
+By default, the pipeline assumes:
+```
+"C:/Program Files/R/R-4.5.2/bin/Rscript.exe"
+```
+
 ### Running the Pipeline
 The pipeline is executed by the python file `main_v2.py`. Run the pipeline by providing a GEO accession ID:
 ```bash
