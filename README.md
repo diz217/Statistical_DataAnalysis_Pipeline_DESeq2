@@ -114,6 +114,7 @@ The pipeline generates a set of intermediate and final result files under the wo
   - 'count' stands for integer count data and 'val' stands for normalized count data.
 
 ### Final analysis results
+Analysis output files are named as `condition1 vs. condition_2`. Log2 fold change is calculated as `log2(condition1/condition2)`. 
 Depending on the data type and replicate availability, the pipeline generates two or more statistical result tables:
 - DESeq2 results:
   - Generated for integer count data with biological replicated experiments.
