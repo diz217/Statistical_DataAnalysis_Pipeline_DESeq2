@@ -98,6 +98,7 @@ class Download_process():
                 has_float = (cmb_df_clean.stack() %1 !=0).any()
                 filename = f'{self.out_dir}{self.gse_id}_val_gsm_matrix_{ii}.tsv' if has_float else f'{self.out_dir}{self.gse_id}_count_gsm_matrix_{ii}.tsv'
                 print(f'file: {filename}')
+                cmb_df_clean = cmb_df_clean[~cmb_df_clean.index.duplicated(keep='first')]
                 cmb_df_clean.to_csv(filename,sep='\t',index=True)
                 filepath_list.append(filename)
         self.filepaths =  filepath_list if filepath_list else None 
@@ -266,3 +267,4 @@ class Download_process():
                 df_ctrl.to_csv('{self.gse_id}_control_experiments.tsv',sep='\t',index=False)
         return cmb_df
         
+
