@@ -95,6 +95,7 @@ def download_process():
             has_float = (cmb_df_clean.stack() %1 !=0).any()
             filename = f'{out_dir}{gse_id}_val_gsm_matrix_{ii}.tsv' if has_float else f'{out_dir}{gse_id}_count_gsm_matrix_{ii}.tsv'
             print(f'file: {filename}')
+            cmb_df_clean = cmb_df_clean[~cmb_df_clean.index.duplicated(keep='first')]
             cmb_df_clean.to_csv(filename,sep='\t',index=True)
 def decompress_file(path1):
     flname = Path(path1).with_suffix('') # rm the last suffix
@@ -261,4 +262,5 @@ def reorder(cmb_df,df_cond):
             keep_cond = set(df_cond['condition'])
             df_ctrl = df_ctrl[df_ctrl[0].isin(keep_cond) & df_ctrl[1].isin(keep_cond)].reset_index(drop=True)
             df_ctrl.to_csv('{gse_id}_control_experiments.tsv',sep='\t',index=False)
+
     return cmb_df
